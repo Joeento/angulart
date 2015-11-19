@@ -13,6 +13,8 @@ angular.module('angulartApp')
 	var width = canvas.width;
 	var height = canvas.height;
 
+
+
 	function draw() {
 		for (var i = 0;i < $scope.points.length;i++) {
 			ctx.beginPath();
@@ -30,7 +32,11 @@ angular.module('angulartApp')
 			}
 		}
 	}
-
+	$scope.midpoint = 5
+	$scope.sliderOptions = {
+	    floor: 1,
+	    ceil: 20
+	};
 	$scope.points = [];
 	for (var i = 0;i < 3; i++) {
 		$scope.points.push(new Point(Math.floor((Math.random()*width)), Math.floor((Math.random()*height))));

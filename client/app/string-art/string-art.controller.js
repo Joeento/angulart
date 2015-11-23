@@ -62,7 +62,7 @@ angular.module('angulartApp')
 		for (var i = 0;i < legPointsA.length;i++) {
 			ctx.beginPath();
 			ctx.moveTo(legPointsA[i].x, legPointsA[i].y);
-			ctx.lineTo(legPointsB[i].x, legPointsB[i].y);
+			ctx.lineTo(legPointsB[legPointsA.length-i -1].x, legPointsB[legPointsA.length-i -1].y);
 			ctx.stroke();
 		}
 	}
@@ -100,7 +100,7 @@ angular.module('angulartApp')
 	var bStartPoint = new Point(Math.floor((Math.random()*width)), Math.floor((Math.random()*height)));
 	var meetingPoint = new Point(Math.floor((Math.random()*width)), Math.floor((Math.random()*height)));
 	$scope.lines.push(new Line(aStartPoint, meetingPoint));
-	$scope.lines.push(new Line(meetingPoint, bStartPoint));
+	$scope.lines.push(new Line(bStartPoint, meetingPoint));
 
 	draw();
 

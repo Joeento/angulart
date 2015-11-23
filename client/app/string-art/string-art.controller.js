@@ -52,7 +52,7 @@ angular.module('angulartApp')
 
 			for (var j = 0;j < $scope.lines[i].midpoints.length; j++) {
 				ctx.rect($scope.lines[i].midpoints[j].x - 2,$scope.lines[i].midpoints[j].y - 2, 4, 4);
-				ctx.fillStyle='#00ace6';
+				ctx.fillStyle='#b3ccff';
 				ctx.fill();
 			}
 		}
@@ -70,7 +70,7 @@ angular.module('angulartApp')
 	$scope.midpoint = 2;
 	$scope.sliderOptions = {
 	    floor: 1,
-	    ceil: 10,
+	    ceil: 100,
 	    onChange: function() {
 			for (var i = 0;i < $scope.lines.length;i++) {
 				$scope.lines[i].addMidpoints($scope.midpoint);

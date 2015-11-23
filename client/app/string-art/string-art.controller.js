@@ -52,8 +52,9 @@ angular.module('angulartApp')
 
 			$scope.lines[i].addMidpoints(3);
 			for (var j = 0;j < $scope.lines[i].midpoints.length; j++) {
-				ctx.rect($scope.lines[i].midpoints[j].x - 3,$scope.lines[i].midpoints[j].y - 3,6,6);
-				ctx.stroke();
+				ctx.rect($scope.lines[i].midpoints[j].x - 2,$scope.lines[i].midpoints[j].y - 2, 4, 4);
+				ctx.fillStyle='#00ace6';
+				ctx.fill();
 			}
 		}
 	}

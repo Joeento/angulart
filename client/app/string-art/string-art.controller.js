@@ -12,6 +12,7 @@ angular.module('angulartApp')
 		this.midpoints = [];
 	};
 	Line.prototype.addMidpoints = function(count) {
+		this.midpoints = [];
 		for (var i = 1;i <= count; i++) {
 			var t = i/(count + 1);
 			var x = ((1 - t) * this.startPoint.x) + (t * this.endPoint.x);
@@ -26,8 +27,8 @@ angular.module('angulartApp')
 	var width = canvas.width;
 	var height = canvas.height;
 
-
 	function draw() {
+		ctx.clearRect(0, 0, width, height);
 		for (var i = 0;i < $scope.lines.length;i++) {
 			ctx.beginPath();
 			ctx.arc($scope.lines[i].startPoint.x, $scope.lines[i].startPoint.y, 5, 0, 3 * Math.PI, false);
@@ -50,7 +51,6 @@ angular.module('angulartApp')
 			ctx.lineTo($scope.lines[i].endPoint.x, $scope.lines[i].endPoint.y);
 			ctx.stroke();
 
-			$scope.lines[i].addMidpoints(3);
 			for (var j = 0;j < $scope.lines[i].midpoints.length; j++) {
 				ctx.rect($scope.lines[i].midpoints[j].x - 2,$scope.lines[i].midpoints[j].y - 2, 4, 4);
 				ctx.fillStyle='#00ace6';
@@ -59,11 +59,19 @@ angular.module('angulartApp')
 		}
 	}
 
-	$scope.midpoint = 5;
+	$scope.midpoint = 2;
 	$scope.sliderOptions = {
 	    floor: 1,
-	    ceil: 20,
+	    ceil: 10,
+	    onChange: function() {
+
+			for (var i = 0;i < $scope.lines.length;i++) {
+				$scope.lines[i].addMidpoints($scope.midpoint);
+			}
+			draw();
+	    }
 	};
+	
 
 	$scope.lines = [];
 	var aStartPoint = new Point(Math.floor((Math.random()*width)), Math.floor((Math.random()*height)));

@@ -23,7 +23,6 @@ angular.module('angulartApp')
 
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
-
 	var width = canvas.width;
 	var height = canvas.height;
 
@@ -57,6 +56,15 @@ angular.module('angulartApp')
 				ctx.fill();
 			}
 		}
+
+		var legPointsA = $scope.lines[0].midpoints.concat($scope.lines[0].endPoint);
+		var legPointsB = $scope.lines[1].midpoints.concat($scope.lines[1].endPoint);
+		for (var i = 0;i < legPointsA.length;i++) {
+			ctx.beginPath();
+			ctx.moveTo(legPointsA[i].x, legPointsA[i].y);
+			ctx.lineTo(legPointsB[i].x, legPointsB[i].y);
+			ctx.stroke();
+		}
 	}
 
 	$scope.midpoint = 2;
@@ -64,7 +72,6 @@ angular.module('angulartApp')
 	    floor: 1,
 	    ceil: 10,
 	    onChange: function() {
-
 			for (var i = 0;i < $scope.lines.length;i++) {
 				$scope.lines[i].addMidpoints($scope.midpoint);
 			}
@@ -78,7 +85,7 @@ angular.module('angulartApp')
 	var bStartPoint = new Point(Math.floor((Math.random()*width)), Math.floor((Math.random()*height)));
 	var meetingPoint = new Point(Math.floor((Math.random()*width)), Math.floor((Math.random()*height)));
 	$scope.lines.push(new Line(aStartPoint, meetingPoint));
-	$scope.lines.push(new Line(bStartPoint, meetingPoint));
+	$scope.lines.push(new Line(meetingPoint, bStartPoint));
 
 	draw();
 

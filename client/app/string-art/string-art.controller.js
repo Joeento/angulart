@@ -13,7 +13,7 @@ angular.module('angulartApp')
 	};
 	Line.prototype.addMidpoints = function(count) {
 		for (var i = 1;i <= count; i++) {
-			var t = 1/(i + 1);
+			var t = i/(count + 1);
 			var x = ((1 - t) * this.startPoint.x) + (t * this.endPoint.x);
 			var y = ((1 - t) * this.startPoint.y) + (t * this.endPoint.y);
 			this.midpoints.push(new Point(x, y));
@@ -25,7 +25,6 @@ angular.module('angulartApp')
 
 	var width = canvas.width;
 	var height = canvas.height;
-
 
 
 	function draw() {
@@ -50,6 +49,12 @@ angular.module('angulartApp')
 			ctx.moveTo($scope.lines[i].startPoint.x, $scope.lines[i].startPoint.y);
 			ctx.lineTo($scope.lines[i].endPoint.x, $scope.lines[i].endPoint.y);
 			ctx.stroke();
+
+			$scope.lines[i].addMidpoints(3);
+			for (var j = 0;j < $scope.lines[i].midpoints.length; j++) {
+				ctx.rect($scope.lines[i].midpoints[j].x - 3,$scope.lines[i].midpoints[j].y - 3,6,6);
+				ctx.stroke();
+			}
 		}
 	}
 

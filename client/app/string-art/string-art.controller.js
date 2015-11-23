@@ -9,6 +9,15 @@ angular.module('angulartApp')
 	var Line = function (startPoint, endPoint) {
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
+		this.midpoints = [];
+	};
+	Line.prototype.addMidpoints = function(count) {
+		for (var i = 1;i <= count; i++) {
+			var t = 1/(i + 1);
+			var x = ((1 - t) * this.startPoint.x) + (t * this.endPoint.x);
+			var y = ((1 - t) * this.startPoint.y) + (t * this.endPoint.y);
+			this.midpoints.push(new Point(x, y));
+		}
 	};
 
 	var canvas = document.getElementById('canvas');
@@ -43,6 +52,7 @@ angular.module('angulartApp')
 			ctx.stroke();
 		}
 	}
+
 	$scope.midpoint = 5;
 	$scope.sliderOptions = {
 	    floor: 1,

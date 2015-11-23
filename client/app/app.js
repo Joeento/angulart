@@ -6,7 +6,8 @@ angular.module('angulartApp', [
   'ngSanitize',
   'ui.router',
   'ui.bootstrap',
-  'rzModule'
+  'rzModule',
+  'ngMouseDrag'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider

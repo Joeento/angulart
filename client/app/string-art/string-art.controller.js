@@ -78,6 +78,21 @@ angular.module('angulartApp')
 			draw();
 	    }
 	};
+	$scope.onMouseDrag = function($event) {
+		for (var i = 0; i < $scope.lines.length; i++) {
+			var d = Math.sqrt(
+						Math.pow(($scope.lines[i].endPoint.x - $event.offsetX),2) +
+						Math.pow(($scope.lines[i].endPoint.y - $event.offsetY), 2));
+			if (d < 5) {
+				console.log('yess');
+			} else {
+				console.log('no');
+				
+			}console.log(d);
+				console.log($event.offsetX+', '+$event.offsetY+ ' vs. '+$scope.lines[i].endPoint.x + ', '+ $scope.lines[i].endPoint.y);
+		}
+		draw();
+	};
 	
 
 	$scope.lines = [];

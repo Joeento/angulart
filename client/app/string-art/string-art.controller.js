@@ -14,7 +14,7 @@ angular.module('angulartApp')
 	Line.prototype.addMidpoints = function(count) {
 		this.midpoints = [];
 		for (var i = 1;i <= count; i++) {
-			var t = i/(count + 1);
+			var t = i/(count );
 			var x = ((1 - t) * this.startPoint.x) + (t * this.endPoint.x);
 			var y = ((1 - t) * this.startPoint.y) + (t * this.endPoint.y);
 			this.midpoints.push(new Point(x, y));
@@ -26,6 +26,12 @@ angular.module('angulartApp')
 	var width = canvas.width;
 	var height = canvas.height;
 
+	var setMidpoints = function() {
+		for (var i = 0;i < $scope.lines.length;i++) {
+				$scope.lines[i].addMidpoints($scope.midpoint);
+		}
+		draw();
+	};
 	function draw() {
 		ctx.clearRect(0, 0, width, height);
 		for (var i = 0;i < $scope.lines.length;i++) {
@@ -57,40 +63,37 @@ angular.module('angulartApp')
 			}
 		}
 
-		var legPointsA = $scope.lines[0].midpoints.concat($scope.lines[0].endPoint);
-		var legPointsB = $scope.lines[1].midpoints.concat($scope.lines[1].endPoint);
+		var legPointsA = [$scope.lines[0].startPoint].concat($scope.lines[0].midpoints);
+		var legPointsB = [$scope.lines[1].startPoint].concat($scope.lines[1].midpoints);
 		for (var i = 0;i < legPointsA.length;i++) {
 			ctx.beginPath();
 			ctx.moveTo(legPointsA[i].x, legPointsA[i].y);
-			ctx.lineTo(legPointsB[legPointsA.length-i -1].x, legPointsB[legPointsA.length-i -1].y);
+			ctx.lineTo(legPointsB[legPointsA.length-i - 1].x, legPointsB[legPointsA.length-i -1].y);
 			ctx.stroke();
 		}
 	}
 
-	$scope.midpoint = 2;
+	$scope.midpoint = 1;
 	$scope.sliderOptions = {
 	    floor: 1,
 	    ceil: 100,
-	    onChange: function() {
-			for (var i = 0;i < $scope.lines.length;i++) {
-				$scope.lines[i].addMidpoints($scope.midpoint);
-			}
-			draw();
-	    }
+	    onChange: setMidpoints
 	};
 	$scope.onMouseDrag = function($event) {
 		for (var i = 0; i < $scope.lines.length; i++) {
-			var d = Math.sqrt(
+			var startPointD = Math.sqrt(
+						Math.pow(($scope.lines[i].startPoint.x - $event.offsetX),2) +
+						Math.pow(($scope.lines[i].startPoint.y - $event.offsetY), 2));
+			var endPointD = Math.sqrt(
 						Math.pow(($scope.lines[i].endPoint.x - $event.offsetX),2) +
 						Math.pow(($scope.lines[i].endPoint.y - $event.offsetY), 2));
-			if (d < 5) {
-				console.log('yess');
-			} else {
-				console.log('no');
-				
-			}console.log(d);
-				console.log($event.offsetX+', '+$event.offsetY+ ' vs. '+$scope.lines[i].endPoint.x + ', '+ $scope.lines[i].endPoint.y);
+			if (startPointD < 5) {
+				$scope.lines[i].startPoint = new Point($event.offsetX, $event.offsetY);
+			} else if (endPointD < 5) {
+				$scope.lines[0].endPoint = $scope.lines[1].endPoint = new Point($event.offsetX, $event.offsetY);
+			}
 		}
+		setMidpoints();
 		draw();
 	};
 	
@@ -101,7 +104,7 @@ angular.module('angulartApp')
 	var meetingPoint = new Point(Math.floor((Math.random()*width)), Math.floor((Math.random()*height)));
 	$scope.lines.push(new Line(aStartPoint, meetingPoint));
 	$scope.lines.push(new Line(bStartPoint, meetingPoint));
-
+	setMidpoints();
 	draw();
 
   });
